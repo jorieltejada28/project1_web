@@ -78,7 +78,6 @@ export class SigninComponent implements OnInit {
   }
 
   private handleCredentialResponse(response: GoogleCredentialResponse | GoogleCodeResponse): void {
-    // Handle both credential (ID token) and code (OAuth code) responses
     const idToken = (response as GoogleCredentialResponse).credential
                   ?? (response as GoogleCodeResponse).code;
 
