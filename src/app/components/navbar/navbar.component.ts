@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { SigninService } from '../../services/signin.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,6 +12,7 @@ import { environment } from '../../../environments/environment';
 })
 export class NavbarComponent implements OnInit {
   appName = environment.appName;
+  private signinService = inject(SigninService);
 
   themes: string[] = [
     'light', 'dark', 'cupcake', 'bumblebee', 'emerald', 'corporate',
@@ -39,5 +41,9 @@ export class NavbarComponent implements OnInit {
 
   private applyTheme(theme: string) {
     document.documentElement.setAttribute('data-theme', theme);
+  }
+
+  get session() {
+    return this.signinService.isLoggedIn;
   }
 }
