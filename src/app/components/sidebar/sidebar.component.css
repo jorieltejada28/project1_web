@@ -1,0 +1,17 @@
+@reference "../../../styles.css";
+
+aside {
+  /* This timing function makes the 'slide' feel more professional (Standard ease-in-out) */
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure tooltips can pop out of the sidebar when it's closed */
+aside.overflow-visible {
+  overflow: visible !important;
+}
+
+/* Prevent text from jumping during the width animation */
+span {
+  display: inline-block;
+  vertical-align: middle;
+}

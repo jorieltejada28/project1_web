@@ -1,0 +1,52 @@
+<aside
+  class="fixed left-0 top-0 z-40 h-screen transition-all duration-300 ease-in-out border-r border-base-content/10 bg-base-100 flex flex-col"
+  [ngClass]="sidebarService.isOpen() ? 'w-64' : 'w-16 overflow-visible'">
+
+  <div class="flex flex-col h-full pt-20">
+    <ul class="menu w-full grow px-2 gap-1.5">
+
+      <li>
+        <button class="flex items-center gap-4 py-3 transition-colors duration-200"
+          [ngClass]="!sidebarService.isOpen() ? 'tooltip tooltip-right justify-center px-0' : 'px-4'"
+          [attr.data-tip]="!sidebarService.isOpen() ? 'Homepage' : null"
+          [ngClass]="!sidebarService.isOpen() ? 'justify-center' : ''">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linejoin="round" stroke-linecap="round"
+            stroke-width="2" fill="none" stroke="currentColor" class="size-5 shrink-0">
+            <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+            <path
+              d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z">
+            </path>
+          </svg>
+
+          <span class="transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden"
+            [ngClass]="sidebarService.isOpen() ? 'opacity-100 w-auto' : 'opacity-0 w-0 h-0'">
+            Homepage
+          </span>
+        </button>
+      </li>
+
+      <li>
+        <button class="flex items-center gap-4 py-3 transition-colors duration-200"
+          [ngClass]="!sidebarService.isOpen() ? 'tooltip tooltip-right justify-center px-0' : 'px-4'"
+          [attr.data-tip]="!sidebarService.isOpen() ? 'Settings' : null"
+          [ngClass]="!sidebarService.isOpen() ? 'justify-center' : ''">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linejoin="round" stroke-linecap="round"
+            stroke-width="2" fill="none" stroke="currentColor" class="size-5 shrink-0">
+            <path d="M20 7h-9"></path>
+            <path d="M14 17H5"></path>
+            <circle cx="17" cy="17" r="3"></circle>
+            <circle cx="7" cy="7" r="3"></circle>
+          </svg>
+
+          <span class="transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden"
+            [ngClass]="sidebarService.isOpen() ? 'opacity-100 w-auto' : 'opacity-0 w-0 h-0'">
+            Settings
+          </span>
+        </button>
+      </li>
+
+    </ul>
+  </div>
+</aside>

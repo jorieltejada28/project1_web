@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { SigninService } from '../../services/signin.service';
+import { SidebarService } from '../../services/sidebar.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +14,7 @@ import { SigninService } from '../../services/signin.service';
 export class NavbarComponent implements OnInit {
   appName = environment.appName;
   private signinService = inject(SigninService);
+  public sidebarService = inject(SidebarService);
 
   themes: string[] = [
     'light', 'dark', 'cupcake', 'bumblebee', 'emerald', 'corporate',
