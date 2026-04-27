@@ -4,7 +4,6 @@
 
   <div class="flex flex-col h-full pt-20">
     <ul class="menu w-full grow px-2 gap-1.5">
-
       @for (item of menuItems; track item.label) {
       <li>
         <button class="flex items-center transition-all duration-200"
@@ -12,12 +11,10 @@
               'tooltip tooltip-right justify-center px-0 w-full py-3': !sidebarService.isOpen(),
               'px-4 gap-4 py-3': sidebarService.isOpen()
             }">
-
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linejoin="round" stroke-linecap="round"
             stroke-width="2" fill="none" stroke="currentColor" class="size-5 shrink-0">
             <path [attr.d]="item.iconPath"></path>
           </svg>
-
           <span class="transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden"
             [ngClass]="sidebarService.isOpen() ? 'opacity-100 w-auto' : 'opacity-0 w-0 h-0 invisible'">
             {{ item.label }}
@@ -25,7 +22,29 @@
         </button>
       </li>
       }
+    </ul>
 
+    <ul class="menu w-full px-2 pb-4 mt-auto">
+      <li>
+        <button (click)="handleSignOut()"
+          class="flex items-center transition-all duration-200 text-error hover:bg-error/10"
+          [attr.data-tip]="!sidebarService.isOpen() ? 'Sign Out' : null"
+          [ngClass]="{
+              'tooltip tooltip-right justify-center px-0 w-full py-3': !sidebarService.isOpen(),
+              'px-4 gap-4 py-3': sidebarService.isOpen()
+            }">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5 shrink-0">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span class="transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden"
+            [ngClass]="sidebarService.isOpen() ? 'opacity-100 w-auto' : 'opacity-0 w-0 h-0 invisible'">
+            Sign Out
+          </span>
+        </button>
+      </li>
     </ul>
   </div>
-</aside>
+</aside>b

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { SidebarService } from '../../services/sidebar.service';
+import { SigninService } from '../../services/signin.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,6 +12,7 @@ import { SidebarService } from '../../services/sidebar.service';
 })
 export class SidebarComponent {
   sidebarService = inject(SidebarService);
+  private SigninService = inject(SigninService);
 
   menuItems = [
     {
@@ -24,4 +26,8 @@ export class SidebarComponent {
       route: '/settings'
     }
   ];
+
+  handleSignOut() {
+    this.SigninService.logout();
+  }
 }

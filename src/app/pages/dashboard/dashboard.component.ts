@@ -28,12 +28,4 @@ export class DashboardComponent implements OnInit {
     // 2. Load user data from the decoded JWT
     this.userProfile = this.signinService.user;
   }
-
-  /**
-   * Handles the logout process
-   */
-  handleSignOut(): void {
-    this.signinService.logout();
-    // The service handles the removal of the token and navigation
-  }
 }
