@@ -1,21 +1,47 @@
 <aside
-  class="fixed left-0 top-0 z-40 h-screen transition-all duration-300 ease-in-out border-r border-base-content/10 bg-base-100 flex flex-col"
-  [ngClass]="sidebarService.isOpen() ? 'w-64' : 'w-16 overflow-visible'">
+  class="fixed left-0 top-0 z-40 h-screen transition-all duration-500 ease-in-out border-r border-black/10 bg-primary text-primary-content font-bold flex flex-col shadow-[10px_0_30px_-15px_rgba(0,0,0,0.3)]"
+  [ngClass]="sidebarService.isOpen() ? 'w-64' : 'w-20 overflow-visible'">
 
-  <div class="flex flex-col h-full pt-20">
-    <ul class="menu w-full grow px-2 gap-1.5">
+  <div class="h-20 flex items-center px-6 mb-4">
+    <div class="size-9 bg-white rounded-xl flex items-center justify-center text-primary shadow-md shrink-0">
+      <svg xmlns="http://www.w3.org/2000/svg" class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="3">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+      </svg>
+    </div>
+    <span class="ml-4 font-black text-xl tracking-tight transition-opacity duration-300"
+      [ngClass]="sidebarService.isOpen() ? 'opacity-100' : 'opacity-0 w-0 h-0 overflow-hidden'">
+      PROJECT1<span class="text-white/40">.</span>
+    </span>
+  </div>
+
+  <div class="flex flex-col h-full grow">
+    <p class="px-7 mb-4 text-[10px] font-black uppercase tracking-[0.2em] text-white/40 transition-opacity"
+      [ngClass]="sidebarService.isOpen() ? 'opacity-100' : 'opacity-0'">
+      Menu
+    </p>
+
+    <ul class="menu w-full px-3 gap-3">
       @for (item of menuItems; track item.label) {
       <li>
-        <button class="flex items-center transition-all duration-200"
+        <button
+          class="group relative flex items-center rounded-xl transition-all duration-200 hover:bg-white hover:text-primary active:scale-95 shadow-none hover:shadow-lg"
           [attr.data-tip]="!sidebarService.isOpen() ? item.label : null" [ngClass]="{
-              'tooltip tooltip-right justify-center px-0 w-full py-3': !sidebarService.isOpen(),
-              'px-4 gap-4 py-3': sidebarService.isOpen()
+              'tooltip tooltip-right justify-center p-0 h-12 w-full': !sidebarService.isOpen(),
+              'px-4 gap-4 py-3.5': sidebarService.isOpen()
             }">
+
+          <div
+            class="absolute left-0 w-1 h-5 bg-white rounded-r-full scale-y-0 group-hover:scale-y-100 transition-transform duration-300">
+          </div>
+
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linejoin="round" stroke-linecap="round"
-            stroke-width="2" fill="none" stroke="currentColor" class="size-5 shrink-0">
+            stroke-width="2.5" fill="none" stroke="currentColor"
+            class="size-5 shrink-0 transition-transform duration-300 group-hover:scale-110">
             <path [attr.d]="item.iconPath"></path>
           </svg>
-          <span class="transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden"
+
+          <span class="transition-all duration-300 whitespace-nowrap overflow-hidden"
             [ngClass]="sidebarService.isOpen() ? 'opacity-100 w-auto' : 'opacity-0 w-0 h-0 invisible'">
             {{ item.label }}
           </span>
@@ -24,27 +50,28 @@
       }
     </ul>
 
-    <ul class="menu w-full px-2 pb-4 mt-auto">
-      <li>
-        <button (click)="handleSignOut()"
-          class="flex items-center transition-all duration-200 text-error hover:bg-error/10"
-          [attr.data-tip]="!sidebarService.isOpen() ? 'Sign Out' : null"
-          [ngClass]="{
-              'tooltip tooltip-right justify-center px-0 w-full py-3': !sidebarService.isOpen(),
-              'px-4 gap-4 py-3': sidebarService.isOpen()
-            }">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5 shrink-0">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
-          </svg>
-          <span class="transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden"
-            [ngClass]="sidebarService.isOpen() ? 'opacity-100 w-auto' : 'opacity-0 w-0 h-0 invisible'">
-            Sign Out
-          </span>
-        </button>
-      </li>
-    </ul>
+    <div class="mt-auto p-4 border-t border-white/10">
+      <ul class="menu w-full">
+        <li>
+          <button (click)="handleSignOut()"
+            class="group flex items-center rounded-xl transition-all duration-200 bg-black/10 hover:bg-error hover:text-white"
+            [attr.data-tip]="!sidebarService.isOpen() ? 'Sign Out' : null" [ngClass]="{
+                'tooltip tooltip-right justify-center p-0 h-12 w-full': !sidebarService.isOpen(),
+                'px-4 gap-4 py-3.5': sidebarService.isOpen()
+              }">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="size-5 shrink-0">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            <span class="transition-all duration-300 whitespace-nowrap overflow-hidden"
+              [ngClass]="sidebarService.isOpen() ? 'opacity-100 w-auto' : 'opacity-0 w-0 h-0 invisible'">
+              Sign Out
+            </span>
+          </button>
+        </li>
+      </ul>
+    </div>
   </div>
-</aside>b
+</aside>

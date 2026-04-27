@@ -1,35 +1,28 @@
-<div class="flex flex-col min-h-screen bg-base-100 text-base-content overflow-x-hidden">
+<div class="flex min-h-screen bg-base-200/50 text-base-content overflow-x-hidden">
 
-  <header class="fixed top-0 z-50 transition-all duration-300 ease-in-out border-b border-base-content/5" [ngClass]="{
-      'left-64 w-[calc(100%-16rem)]': session && sidebarService.isOpen(),
-      'left-16 w-[calc(100%-4rem)]': session && !sidebarService.isOpen(),
-      'left-0 w-full': !session
+  @if (session) {
+  <app-sidebar></app-sidebar>
+  }
+
+  <div class="flex flex-col flex-1 min-w-0 transition-all duration-300 ease-in-out" [ngClass]="{
+      'ml-64': session && sidebarService.isOpen(),
+      'ml-20': session && !sidebarService.isOpen(),
+      'ml-0': !session
     }">
-    <app-navbar></app-navbar>
-  </header>
 
-  <div class="flex flex-1 pt-16">
-    @if (session) {
-    <app-sidebar></app-sidebar>
-    }
+    <header class="sticky top-0 z-30 w-full bg-base-100/80 backdrop-blur-md border-b border-base-content/5">
+      <app-navbar></app-navbar>
+    </header>
 
-    <main class="grow transition-all duration-300 ease-in-out" [ngClass]="{
-        'ml-64': session && sidebarService.isOpen(),
-        'ml-16': session && !sidebarService.isOpen(),
-        'ml-0': !session
-      }">
-      <div class="p-6">
+    <main class="flex-1">
+      <div class="p-4 md:p-8 max-w-7xl mx-auto">
         <ng-content></ng-content>
       </div>
     </main>
-  </div>
 
-  <footer class="shrink-0 transition-all duration-300 ease-in-out border-t border-base-content/5" [ngClass]="{
-      'ml-64': session && sidebarService.isOpen(),
-      'ml-16': session && !sidebarService.isOpen(),
-      'ml-0': !session
-    }">
-    <app-footer></app-footer>
-  </footer>
+    <footer class="shrink-0 border-t border-base-content/5 bg-base-100">
+      <app-footer></app-footer>
+    </footer>
+  </div>
 
 </div>

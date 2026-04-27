@@ -1,60 +1,92 @@
-<div class="navbar bg-base-200 shadow-sm w-full px-4 py-2">
+<div class="navbar bg-transparent min-h-16 px-6">
 
-  <div class="navbar-start gap-2">
+  <div class="navbar-start gap-3">
     @if (session) {
-    <!-- for sidebar close and open -->
-    <div tabindex="0" role="button" class="btn btn-ghost btn-circle" (click)="sidebarService.toggle()">
+    <button
+      class="group btn btn-ghost btn-circle bg-base-100/50 hover:bg-primary/10 border border-base-content/5 shadow-sm transition-all duration-300"
+      (click)="sidebarService.toggle()">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linejoin="round" stroke-linecap="round"
-        stroke-width="2" fill="none" stroke="currentColor" class="my-1.5 inline-block size-4">
+        stroke-width="2.5" fill="none" stroke="currentColor"
+        class="size-5 transition-transform duration-300 group-active:scale-90 text-base-content/70 group-hover:text-primary">
         <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
         <path d="M9 4v16"></path>
         <path d="M14 10l2 2l-2 2"></path>
       </svg>
+    </button>
+
+    <div class="hidden lg:flex flex-col ml-2">
+      <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-base-content/40">Workspace</span>
+      <span class="text-sm font-bold tracking-tight text-base-content">Enterprise Dashboard</span>
     </div>
+
     } @else {
-    <a class="btn btn-ghost text-xl font-black tracking-tighter hover:bg-transparent">
-      <span class="text-primary">//</span>{{ appName }}
+    <a class="flex items-center gap-2 group cursor-pointer">
+      <div
+        class="size-8 bg-primary rounded-lg flex items-center justify-center text-primary-content shadow-lg shadow-primary/20">
+        <span class="font-black text-sm">N</span>
+      </div>
+      <span class="text-xl font-black tracking-tighter text-base-content">
+        {{ appName }}<span class="text-primary">.</span>
+      </span>
     </a>
     }
   </div>
 
-  <div class="navbar-end gap-2">
+  <div class="navbar-end gap-3">
     @if (session) {
-    <button class="btn btn-ghost btn-circle transition-all duration-300">
+    <button
+      class="btn btn-ghost btn-circle bg-base-100/50 border border-base-content/5 hover:bg-white hover:shadow-md transition-all">
       <div class="indicator">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="size-5 text-base-content/70" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
         </svg>
-        <span class="badge badge-xs badge-primary indicator-item ring-2 ring-base-200">1</span>
+        <span class="badge badge-primary badge-xs indicator-item border-2 border-base-100 scale-125">1</span>
       </div>
     </button>
 
     <div class="dropdown dropdown-end">
       <div tabindex="0" role="button"
-        class="btn btn-sm h-10 px-3 bg-base-100 border-base-content/10 shadow-sm flex items-center gap-2 rounded-lg">
-        <span class="text-[10px] uppercase opacity-60 font-bold tracking-widest">Theme:</span>
-        <span class="text-xs font-medium">{{ currentTheme | titlecase }}</span>
-        <svg width="12" height="12" class="opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048">
-          <path fill="currentColor" d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"></path>
-        </svg>
+        class="btn btn-sm h-11 px-4 bg-base-100/80 border border-base-content/5 shadow-sm flex items-center gap-3 rounded-xl hover:border-primary/30 transition-all">
+        <div class="flex flex-col items-end">
+          <span class="text-[9px] uppercase opacity-40 font-black tracking-widest leading-none">Theme</span>
+          <span class="text-xs font-bold">{{ currentTheme | titlecase }}</span>
+        </div>
+        <div class="size-6 bg-primary/10 text-primary rounded-lg flex items-center justify-center">
+          <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048">
+            <path fill="currentColor" d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"></path>
+          </svg>
+        </div>
       </div>
 
       <ul tabindex="0"
-        class="dropdown-content mt-3 bg-base-100/95 backdrop-blur-md rounded-xl z-101 w-64 p-2 shadow-2xl border border-base-content/5 max-h-96 overflow-y-auto custom-scrollbar">
-        <div class="px-3 py-2 text-[10px] uppercase font-black tracking-widest text-primary italic">Select Theme
+        class="dropdown-content mt-4 bg-base-100/95 backdrop-blur-xl rounded-2xl z-100 w-64 p-3 shadow-2xl border border-base-content/5 max-h-[70vh] overflow-y-auto">
+        <div class="px-4 py-3 mb-2 bg-primary/5 rounded-xl">
+          <p class="text-[10px] uppercase font-black tracking-[0.15em] text-primary">Visual Identity</p>
+          <p class="text-[11px] text-base-content/60">Choose a workspace skin</p>
         </div>
-        @for (theme of themes; track theme) {
-        <li>
-          <input type="radio" name="theme-dropdown"
-            class="theme-controller btn btn-ghost btn-sm justify-start text-xs font-semibold w-full" [value]="theme"
-            [attr.aria-label]="theme | titlecase" [checked]="theme === currentTheme" (click)="changeTheme(theme)">
-        </li>
-        }
-      </ul>
 
+        <div class="grid grid-cols-1 gap-1">
+          @for (theme of themes; track theme) {
+          <li>
+            <button
+              class="flex items-center justify-between px-4 py-2.5 rounded-lg text-xs font-bold transition-all w-full group"
+              [ngClass]="theme === currentTheme ? 'bg-primary text-primary-content shadow-md' : 'hover:bg-base-200'"
+              (click)="changeTheme(theme)">
+              {{ theme | titlecase }}
+              @if (theme === currentTheme) {
+              <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              }
+            </button>
+          </li>
+          }
+        </div>
+      </ul>
     </div>
     }
   </div>
-
 </div>
