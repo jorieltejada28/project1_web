@@ -1,0 +1,18 @@
+<div class="card w-full bg-base-100 shadow-xl border border-base-300">
+  <div class="card-body p-5">
+
+    @if (title) {
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="card-title text-sm font-semibold tracking-wide uppercase opacity-70">
+        {{ title }}
+      </h2>
+    </div>
+    }
+
+    <!-- Dynamic Container: It takes the height you pass from the parent -->
+    <div [style.height]="height" class="relative w-full">
+      <canvas #chartCanvas></canvas>
+    </div>
+
+  </div>
+</div>

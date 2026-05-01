@@ -1,5 +1,12 @@
 <app-main>
-  <div class="p-6">
-    <p>Welcome back! You are successfully authenticated.</p>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
+
+    <app-line-graph [data]="userTrends" xKey="date" yKey="total" title="Daily Registrations" height="350px"
+      color="#3b82f6">
+    </app-line-graph>
+
+    <app-line-graph [data]="revenueData" xKey="month" yKey="amount" title="Revenue" height="350px" color="#10b981">
+    </app-line-graph>
+
   </div>
 </app-main>

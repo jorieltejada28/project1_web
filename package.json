@@ -27,6 +27,7 @@
     "@angular/platform-browser": "^20.1.0",
     "@angular/router": "^20.1.0",
     "@tailwindcss/postcss": "^4.2.4",
+    "chart.js": "^4.5.1",
     "daisyui": "^5.5.19",
     "jwt-decode": "^4.0.0",
     "postcss": "^8.5.10",
