@@ -4,6 +4,7 @@ import { SigninService } from '../../services/signin.service';
 import { Router } from '@angular/router';
 import { GoogleCredentialResponse, GoogleCodeResponse } from '../../interfaces/auth.interface';
 import { LoadingService } from '../../services/loading.service';
+import { GoogleGlobal } from '../../interfaces/google-identity.types';
 
 // Google OAuth configuration
 const GOOGLE_CLIENT_ID = '465132550032-li26na1kcldeeu8l6004cbscj4hirh9i.apps.googleusercontent.com';
@@ -37,12 +38,12 @@ export class SigninComponent implements OnInit {
   }
 
   private isGoogleLoaded(): boolean {
-    // @ts-ignore
-    return typeof google !== 'undefined' && google.accounts?.id != null;
+    const google = window.google as GoogleGlobal | undefined;
+    return google != null && google.accounts?.id != null;
   }
 
   private setupGoogleIdProvider(): void {
-    // @ts-ignore
+    const google = window.google as GoogleGlobal;
     google.accounts.id.initialize({
       client_id: GOOGLE_CLIENT_ID,
       callback: (response: GoogleCredentialResponse) => this.handleCredentialResponse(response),
@@ -57,7 +58,7 @@ export class SigninComponent implements OnInit {
       return;
     }
 
-    // @ts-ignore
+    const google = window.google as GoogleGlobal;
     const client = google.accounts.oauth2.initCodeClient({
       client_id: GOOGLE_CLIENT_ID,
       scope: 'openid profile email',
@@ -73,8 +74,8 @@ export class SigninComponent implements OnInit {
   }
 
   private isGoogleOAuthLoaded(): boolean {
-    // @ts-ignore
-    return typeof google !== 'undefined' && google.accounts?.oauth2 != null;
+    const google = window.google as GoogleGlobal | undefined;
+    return google != null && google.accounts?.oauth2 != null;
   }
 
   private handleCredentialResponse(response: GoogleCredentialResponse | GoogleCodeResponse): void {

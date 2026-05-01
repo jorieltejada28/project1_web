@@ -30,6 +30,7 @@
     "daisyui": "^5.5.19",
     "jwt-decode": "^4.0.0",
     "postcss": "^8.5.10",
+    "recharts": "^3.8.1",
     "rxjs": "~7.8.0",
     "tailwindcss": "^4.2.4",
     "tslib": "^2.3.0",
