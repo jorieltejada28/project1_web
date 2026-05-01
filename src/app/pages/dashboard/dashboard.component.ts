@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit {
 
   userProfile: any = null;
 
-  // 1. Define the missing properties
+  // Line Graph Properties
   userTrends: any[] = [];
   revenueData: any[] = [];
 
@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
 
     this.userProfile = this.signinService.user;
 
-    // 2. Initialize with data (In a real app, you'd fetch this from a service)
+    // Initiate Dummy Data
     this.userTrends = [
       { date: '2024-05-01', total: 10 },
       { date: '2024-05-02', total: 25 },
