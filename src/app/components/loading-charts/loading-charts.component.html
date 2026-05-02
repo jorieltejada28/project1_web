@@ -1,0 +1,21 @@
+<div [style.height]="height" class="relative w-full overflow-hidden transition-all duration-500">
+
+  <!-- Loading Overlay -->
+  @if (isLoading) {
+  <div
+    class="absolute inset-0 z-20 flex flex-col items-center justify-center bg-base-100/60 backdrop-blur-[2px] transition-all">
+    <!-- Clean DaisyUI Ring Loader -->
+    <span class="loading loading-ring loading-lg text-primary/70"></span>
+    <span class="text-[10px] font-bold uppercase tracking-widest text-base-content/30 mt-2">
+      Rendering...
+    </span>
+  </div>
+  }
+
+  <!-- Content Projection: This is where your <canvas> will sit -->
+  <div [class.opacity-20]="isLoading" [class.blur-sm]="isLoading"
+    class="w-full h-full transition-all duration-700 ease-in-out">
+    <ng-content></ng-content>
+  </div>
+
+</div>

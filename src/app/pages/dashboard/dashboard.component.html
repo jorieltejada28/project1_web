@@ -1,12 +1,54 @@
 <app-main>
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 p-1">
 
-    <app-line-graph [data]="userTrends" xKey="date" yKey="total" title="Daily Registrations" height="300px"
-      color="#3b82f6">
-    </app-line-graph>
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-2 p-1">
 
-    <app-line-graph [data]="revenueData" xKey="month" yKey="amount" title="Revenue" height="300px" color="#10b981">
-    </app-line-graph>
+    <!-- Left Column: Line Graph (Takes 3/4 width) -->
+    <div class="lg:col-span-3">
+      <app-line-graph [data]="userTrends" xKey="date" yKey="total" title="Daily Registrations" height="300px"
+        color="#3b82f6">
+      </app-line-graph>
+    </div>
+
+    <!-- Right Column: Stacked Cards (Takes 1/4 width) -->
+    <div class="lg:col-span-1 flex flex-col gap-2">
+
+      <!-- Top Small Card -->
+      <div class="card w-full bg-base-100 shadow-xl border border-base-300 h-full">
+        <div class="card-body p-5">
+          <h2 class="card-title text-sm font-medium opacity-80 mb-2">Total Users</h2>
+          <div class="flex flex-col justify-center h-full">
+            <p class="text-3xl font-bold text-primary">12,482</p>
+            <p class="text-[10px] uppercase tracking-wider opacity-40 mt-1">+12% from last month</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Small Card -->
+      <div class="card w-full bg-base-100 shadow-xl border border-base-300 h-full">
+        <div class="card-body p-5">
+          <h2 class="card-title text-sm font-medium opacity-80 mb-2">Active Sessions</h2>
+          <div class="flex flex-col justify-center h-full">
+            <p class="text-3xl font-bold text-secondary">1,204</p>
+            <p class="text-[10px] uppercase tracking-wider opacity-40 mt-1">Live right now</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 p-1">
+
+    <!-- bar chart -->
+    <app-bar-chart [data]="revenueData" xKey="month" yKey="amount" title="Revenue by Month" height="300px"
+      color="#f471b5">
+    </app-bar-chart>
+
+    <!-- Donut chart -->
+    <app-donut-chart [data]="browserData" labelKey="browser" valueKey="users" title="Device Distribution"
+      height="292px">
+    </app-donut-chart>
 
   </div>
 </app-main>

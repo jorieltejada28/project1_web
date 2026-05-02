@@ -3,13 +3,13 @@ import Chart from 'chart.js/auto';
 import { LoadingChartsComponent } from '../loading-charts/loading-charts.component';
 
 @Component({
-  selector: 'app-line-graph',
+  selector: 'app-bar-chart',
   standalone: true,
   imports: [LoadingChartsComponent],
-  templateUrl: './line-graph.component.html',
-  styleUrl: './line-graph.component.css'
+  templateUrl: './bar-chart.component.html',
+  styleUrl: './bar-chart.component.css',
 })
-export class LineGraphComponent implements AfterViewInit, OnChanges {
+export class BarChartComponent implements AfterViewInit, OnChanges {
   @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
 
   @Input({ required: true }) data: any[] = [];
@@ -39,18 +39,14 @@ export class LineGraphComponent implements AfterViewInit, OnChanges {
     if (!ctx) return;
 
     this.chart = new Chart(ctx, {
-      type: 'line',
+      type: 'bar', // Changed from 'line' to 'bar'
       data: {
         labels: this.data.map(d => d[this.xKey]),
         datasets: [{
           data: this.data.map(d => d[this.yKey]),
-          borderColor: this.color,
-          backgroundColor: this.createGradient(ctx),
-          fill: true,
-          tension: 0.4, // Smoothing the line
-          borderWidth: 2,
-          pointRadius: 3,
-          pointBackgroundColor: this.color
+          backgroundColor: this.color, // Bars usually look better with solid colors
+          borderRadius: 6, // Gives bars a modern rounded look
+          borderWidth: 0
         }]
       },
       options: {
@@ -79,12 +75,5 @@ export class LineGraphComponent implements AfterViewInit, OnChanges {
     this.chart.data.labels = this.data.map(d => d[this.xKey]);
     this.chart.data.datasets[0].data = this.data.map(d => d[this.yKey]);
     this.chart.update();
-  }
-
-  private createGradient(ctx: CanvasRenderingContext2D) {
-    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-    gradient.addColorStop(0, `${this.color}33`); // 33 is hex for ~20% opacity
-    gradient.addColorStop(1, 'transparent');
-    return gradient;
   }
 }

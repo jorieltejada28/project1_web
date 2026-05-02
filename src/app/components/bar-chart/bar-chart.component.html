@@ -1,12 +1,8 @@
 <div class="card w-full bg-base-100 shadow-xl border border-base-300">
-  <div class="card-body p-5">
+  <div class="card-body p-4">
 
     @if (title) {
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="card-title text-sm font-semibold tracking-wide uppercase opacity-70">
-        {{ title }}
-      </h2>
-    </div>
+    <h2 class="card-title text-sm font-medium opacity-70 mb-4">{{ title }}</h2>
     }
 
     <app-loading-charts [isLoading]="isLoading()" [height]="height">

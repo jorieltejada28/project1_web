@@ -3,21 +3,23 @@ import Chart from 'chart.js/auto';
 import { LoadingChartsComponent } from '../loading-charts/loading-charts.component';
 
 @Component({
-  selector: 'app-line-graph',
+  selector: 'app-donut-chart',
   standalone: true,
   imports: [LoadingChartsComponent],
-  templateUrl: './line-graph.component.html',
-  styleUrl: './line-graph.component.css'
+  templateUrl: './donut-chart.component.html',
+  styleUrl: './donut-chart.component.css',
 })
-export class LineGraphComponent implements AfterViewInit, OnChanges {
+export class DonutChartComponent implements AfterViewInit, OnChanges {
   @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
 
   @Input({ required: true }) data: any[] = [];
-  @Input({ required: true }) xKey: string = '';
-  @Input({ required: true }) yKey: string = '';
+  @Input({ required: true }) labelKey: string = '';
+  @Input({ required: true }) valueKey: string = '';
   @Input() title: string = '';
   @Input() height: string = '300px';
-  @Input() color: string = '#570df8';
+
+  // Soft, professional tones (Indigo, Teal, Violet, Rose, Sky)
+  @Input() colors: string[] = ['#6366f1', '#2dd4bf', '#8b5cf6', '#fb7185', '#38bdf8'];
 
   isLoading = signal(true);
 
@@ -39,18 +41,15 @@ export class LineGraphComponent implements AfterViewInit, OnChanges {
     if (!ctx) return;
 
     this.chart = new Chart(ctx, {
-      type: 'line',
+      type: 'doughnut',
       data: {
-        labels: this.data.map(d => d[this.xKey]),
+        labels: this.data.map(d => d[this.labelKey]),
         datasets: [{
-          data: this.data.map(d => d[this.yKey]),
-          borderColor: this.color,
-          backgroundColor: this.createGradient(ctx),
-          fill: true,
-          tension: 0.4, // Smoothing the line
-          borderWidth: 2,
-          pointRadius: 3,
-          pointBackgroundColor: this.color
+          data: this.data.map(d => d[this.valueKey]),
+          backgroundColor: this.colors,
+          hoverOffset: 12,
+          borderWidth: 0,
+          spacing: 5
         }]
       },
       options: {
@@ -65,10 +64,18 @@ export class LineGraphComponent implements AfterViewInit, OnChanges {
         animation: {
           onComplete: () => this.isLoading.set(false)
         },
-        plugins: { legend: { display: false } },
-        scales: {
-          x: { grid: { display: false }, ticks: { color: '#9ca3af' } },
-          y: { grid: { color: 'rgba(156, 163, 175, 0.1)' }, ticks: { color: '#9ca3af' } }
+        cutout: '70%',
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              usePointStyle: true,
+              pointStyle: 'circle',
+              color: '#9ca3af',
+              padding: 20,
+              font: { size: 11, weight: 500 }
+            }
+          }
         }
       }
     });
@@ -76,15 +83,8 @@ export class LineGraphComponent implements AfterViewInit, OnChanges {
 
   private updateChart() {
     if (!this.chart) return;
-    this.chart.data.labels = this.data.map(d => d[this.xKey]);
-    this.chart.data.datasets[0].data = this.data.map(d => d[this.yKey]);
+    this.chart.data.labels = this.data.map(d => d[this.labelKey]);
+    this.chart.data.datasets[0].data = this.data.map(d => d[this.valueKey]);
     this.chart.update();
-  }
-
-  private createGradient(ctx: CanvasRenderingContext2D) {
-    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-    gradient.addColorStop(0, `${this.color}33`); // 33 is hex for ~20% opacity
-    gradient.addColorStop(1, 'transparent');
-    return gradient;
   }
 }

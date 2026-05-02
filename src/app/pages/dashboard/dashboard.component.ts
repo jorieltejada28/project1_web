@@ -1,13 +1,20 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MainComponent } from '../../layouts/main/main.component';
-import { SigninService } from '../../services/signin.service'; // Adjust path if necessary
+import { SigninService } from '../../services/signin.service';
 import { LineGraphComponent } from '../../components/line-graph/line-graph.component';
+import { BarChartComponent } from '../../components/bar-chart/bar-chart.component';
+import { DonutChartComponent } from '../../components/donut-chart/donut-chart.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MainComponent, LineGraphComponent],
+  imports: [
+    MainComponent,
+    LineGraphComponent,
+    BarChartComponent,
+    DonutChartComponent,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -20,6 +27,7 @@ export class DashboardComponent implements OnInit {
   // Line Graph Properties
   userTrends: any[] = [];
   revenueData: any[] = [];
+  browserData: any[] = [];
 
   ngOnInit(): void {
     if (!this.signinService.isLoggedIn) {
@@ -43,6 +51,14 @@ export class DashboardComponent implements OnInit {
       { month: 'Feb', amount: 2100 },
       { month: 'Mar', amount: 800 },
       { month: 'Apr', amount: 1600 },
+    ];
+
+    this.browserData = [
+      { browser: 'Chrome', users: 4500 },
+      { browser: 'Safari', users: 2100 },
+      { browser: 'Firefox', users: 1200 },
+      { browser: 'Edge', users: 800 },
+      { browser: 'Other', users: 400 }
     ];
   }
 }
