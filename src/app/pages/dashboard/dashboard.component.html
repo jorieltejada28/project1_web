@@ -1,11 +1,11 @@
 <app-main>
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 p-1">
 
-    <app-line-graph [data]="userTrends" xKey="date" yKey="total" title="Daily Registrations" height="350px"
+    <app-line-graph [data]="userTrends" xKey="date" yKey="total" title="Daily Registrations" height="300px"
       color="#3b82f6">
     </app-line-graph>
 
-    <app-line-graph [data]="revenueData" xKey="month" yKey="amount" title="Revenue" height="350px" color="#10b981">
+    <app-line-graph [data]="revenueData" xKey="month" yKey="amount" title="Revenue" height="300px" color="#10b981">
     </app-line-graph>
 
   </div>
