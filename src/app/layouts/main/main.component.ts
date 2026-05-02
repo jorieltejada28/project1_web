@@ -17,7 +17,10 @@ export class MainComponent  {
   private signinService = inject(SigninService);
   public sidebarService = inject(SidebarService);
 
+  // Use reactive signal for automatic updates
+  readonly isLoggedIn = this.signinService.isLoggedInSignal;
+
   get session(): boolean {
-    return this.signinService.isLoggedIn;
+    return this.isLoggedIn();
   }
 }

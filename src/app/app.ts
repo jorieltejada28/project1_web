@@ -31,7 +31,6 @@ export class App {
   constructor() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
-        // Only show progress bar if it's NOT the first time the app is loading
         if (!this.isInitialLoad) {
           this.loadingService.isLoading.set(true);
         }
