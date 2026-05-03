@@ -1,5 +1,6 @@
 import { Component, Input, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuditLogEntry } from '../../interfaces/audit.interface';
 
 @Component({
   selector: 'app-audit-trail',
@@ -8,29 +9,42 @@ import { CommonModule } from '@angular/common';
   templateUrl: './audit-trail.component.html'
 })
 export class AuditTrailComponent {
-  @Input({ required: true }) auditLogs: any[] = [];
+  private readonly _auditLogs = signal<AuditLogEntry[]>([]);
 
-  // Dashboard view: strictly the first 7 logs
-  displayLogs = computed(() => this.auditLogs.slice(0, 7));
+  @Input({ required: true })
+  set auditLogs(value: AuditLogEntry[]) {
+    this._auditLogs.set(value ?? []);
+    this.modalPage.set(1);
+  }
 
-  protected readonly Math = Math;
-  
-  // Modal Pagination State
-  isModalOpen = signal(false);
-  modalPage = signal(1);
-  pageSize = 10;
+  get auditLogs(): AuditLogEntry[] {
+    return this._auditLogs();
+  }
 
-  totalPages = computed(() => Math.ceil(this.auditLogs.length / this.pageSize));
+  readonly displayLogs = computed(() => this._auditLogs().slice(0, 7));
 
-  // Sliced logs for the modal view
-  paginatedModalLogs = computed(() => {
+  readonly isModalOpen = signal(false);
+  readonly modalPage = signal(1);
+  readonly pageSize = 10;
+
+  readonly totalPages = computed(() => Math.max(1, Math.ceil(this._auditLogs().length / this.pageSize)));
+
+  readonly paginatedModalLogs = computed(() => {
+    const logs = this._auditLogs();
     const start = (this.modalPage() - 1) * this.pageSize;
-    const end = start + this.pageSize;
-    return this.auditLogs.slice(start, end);
+    return logs.slice(start, start + this.pageSize);
+  });
+
+  readonly modalRange = computed(() => {
+    const logs = this._auditLogs();
+    const total = logs.length;
+    const start = total ? (this.modalPage() - 1) * this.pageSize + 1 : 0;
+    const end = total ? Math.min(this.modalPage() * this.pageSize, total) : 0;
+    return { start, end, total };
   });
 
   openModal() {
-    this.modalPage.set(1); // Reset to page 1 when opening
+    this.modalPage.set(1);
     this.isModalOpen.set(true);
   }
 
@@ -39,10 +53,18 @@ export class AuditTrailComponent {
   }
 
   nextPage() {
-    if (this.modalPage() < this.totalPages()) this.modalPage.update(p => p + 1);
+    if (this.modalPage() < this.totalPages()) {
+      this.modalPage.update((page) => page + 1);
+    }
   }
 
   prevPage() {
-    if (this.modalPage() > 1) this.modalPage.update(p => p - 1);
+    if (this.modalPage() > 1) {
+      this.modalPage.update((page) => page - 1);
+    }
+  }
+
+  trackByLog(index: number, log: AuditLogEntry): string | number {
+    return log.id ?? index;
   }
 }

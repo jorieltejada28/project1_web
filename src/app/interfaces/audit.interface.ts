@@ -1,8 +1,11 @@
-interface AuditLog {
+export interface AuditLogEntry {
+  id?: string | number;
+  avatar?: string;
   userName: string;
-  avatar: string;
+  actionClass?: string;
   action: string;
-  actionClass: string;
   description: string;
   time: string;
 }
+
+export type AuditLog = AuditLogEntry;

@@ -8,6 +8,7 @@ import { BarChartComponent } from '../../components/bar-chart/bar-chart.componen
 import { DonutChartComponent } from '../../components/donut-chart/donut-chart.component';
 import { CardDashboardComponent } from '../../components/card-dashboard/card-dashboard.component';
 import { AuditTrailComponent } from '../../components/audit-trail/audit-trail.component';
+import { AuditLog } from '../../interfaces/audit.interface';
 
 @Component({
   selector: 'app-dashboard',
