@@ -1,40 +1,41 @@
 <app-main>
-  <!-- Master Layout: 4 Columns -->
-  <div class="grid grid-cols-1 lg:grid-cols-4 gap-2 p-1">
+  <!-- Master Layout: Responsive Padding and Gap -->
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-2 px-2 py-2 md:px-4 md:py-3">
 
-    <!-- LEFT & MIDDLE SECTION (3/4 Width) -->
-    <div class="lg:col-span-3 flex flex-col gap-2">
+    <!-- LEFT & MIDDLE SECTION (3/4 Width on Desktop, full on Mobile) -->
+    <div class="flex grid-cols-1 lg:col-span-3 flex-col gap-2">
 
-      <!-- Top Row: Line Graph + 2 Small Cards -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 items-stretch">
-        <!-- Line Graph (2/3 of this sub-section) -->
-        <div class="lg:col-span-2">
-          <app-line-graph [data]="userTrends" xKey="date" yKey="total" title="Daily Registrations" height="300px"
+      <!-- Top Row: Line Graph + Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 items-stretch">
+        <!-- Line Graph: Full width on mobile/tablet, 2/3 on desktop -->
+        <div class="md:col-span-2 lg:col-span-2">
+          <app-line-graph [data]="userTrends" xKey="date" yKey="total" title="Daily Registrations" height="320px"
             color="#3b82f6">
           </app-line-graph>
         </div>
 
-        <!-- Stacked Small Cards (1/3 of this sub-section) -->
-        <div class="lg:col-span-1 h-full">
-          <!-- h-full here ensures the component container matches the line graph height -->
+        <!-- Stacked Small Cards: 1/3 width on desktop -->
+        <div class="md:col-span-2 lg:col-span-1 h-full">
           <app-card-dashboard [stats]="stats" class="h-full"></app-card-dashboard>
         </div>
       </div>
 
       <!-- Bottom Row: Bar + Donut -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <app-bar-chart [data]="revenueData" xKey="month" yKey="amount" title="Revenue by Month" height="300px"
-          color="#f471b5"></app-bar-chart>
+          color="#f471b5">
+        </app-bar-chart>
 
         <app-donut-chart [data]="browserData" labelKey="browser" valueKey="users" title="Device Distribution"
-          height="292px"></app-donut-chart>
-
+          height="292px">
+        </app-donut-chart>
       </div>
     </div>
 
-    <!-- RIGHT SECTION: Vertical Audit Trail (1/4 Width) -->
-    <div class="lg:col-span-1">
-      <app-audit-trail [auditLogs]="auditLogs"></app-audit-trail>
+    <!-- RIGHT SECTION: Vertical Audit Trail -->
+    <div class="grid grid-cols-1 lg:col-span-1">
+      <!-- We set a responsive min-height so it doesn't look squashed on mobile -->
+      <app-audit-trail [auditLogs]="auditLogs" class="min-h-[400px] lg:min-h-[610px]"></app-audit-trail>
     </div>
 
   </div>
