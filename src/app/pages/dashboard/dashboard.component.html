@@ -1,54 +1,115 @@
 <app-main>
-
+  <!-- Master Layout: 4 Columns -->
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-2 p-1">
 
-    <!-- Left Column: Line Graph (Takes 3/4 width) -->
-    <div class="lg:col-span-3">
-      <app-line-graph [data]="userTrends" xKey="date" yKey="total" title="Daily Registrations" height="300px"
-        color="#3b82f6">
-      </app-line-graph>
-    </div>
+    <!-- LEFT & MIDDLE SECTION (3/4 Width) -->
+    <div class="lg:col-span-3 flex flex-col gap-2">
 
-    <!-- Right Column: Stacked Cards (Takes 1/4 width) -->
-    <div class="lg:col-span-1 flex flex-col gap-2">
+      <!-- Top Row: Line Graph + 2 Small Cards -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
+        <!-- Line Graph (2/3 of this sub-section) -->
+        <div class="lg:col-span-2">
+          <app-line-graph [data]="userTrends" xKey="date" yKey="total" title="Daily Registrations" height="300px"
+            color="#3b82f6">
+          </app-line-graph>
+        </div>
 
-      <!-- Top Small Card -->
-      <div class="card w-full bg-base-100 shadow-xl border border-base-300 h-full">
-        <div class="card-body p-5">
-          <h2 class="card-title text-sm font-medium opacity-80 mb-2">Total Users</h2>
-          <div class="flex flex-col justify-center h-full">
-            <p class="text-3xl font-bold text-primary">12,482</p>
-            <p class="text-[10px] uppercase tracking-wider opacity-40 mt-1">+12% from last month</p>
+        <!-- Stacked Small Cards (1/3 of this sub-section) -->
+        <div class="flex flex-col gap-2">
+          @for (stat of stats; track stat.title) {
+          <div class="card w-full bg-base-100 shadow-xl border border-base-300 h-full">
+            <div class="card-body p-5">
+              <h2 class="card-title text-sm font-medium opacity-80 mb-2">
+                {{ stat.title }}
+              </h2>
+              <div class="flex flex-col justify-center h-full">
+                <p [class]="'text-3xl font-bold ' + stat.colorClass">
+                  {{ stat.value }}
+                </p>
+                <p class="text-[10px] uppercase tracking-wider opacity-40 mt-1">
+                  {{ stat.trend }}
+                </p>
+              </div>
+            </div>
           </div>
+          } @empty {
+          <!-- Optional: Placeholder if no stats are available -->
+          <div class="p-4 text-center opacity-20">No data available</div>
+          }
         </div>
       </div>
 
-      <!-- Bottom Small Card -->
-      <div class="card w-full bg-base-100 shadow-xl border border-base-300 h-full">
-        <div class="card-body p-5">
-          <h2 class="card-title text-sm font-medium opacity-80 mb-2">Active Sessions</h2>
-          <div class="flex flex-col justify-center h-full">
-            <p class="text-3xl font-bold text-secondary">1,204</p>
-            <p class="text-[10px] uppercase tracking-wider opacity-40 mt-1">Live right now</p>
-          </div>
-        </div>
+      <!-- Bottom Row: Bar + Donut -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
+        <app-bar-chart [data]="revenueData" xKey="month" yKey="amount" title="Revenue by Month" height="300px"
+          color="#f471b5"></app-bar-chart>
+        <app-donut-chart [data]="browserData" labelKey="browser" valueKey="users" title="Device Distribution"
+          height="292px"></app-donut-chart>
       </div>
-
     </div>
 
-  </div>
+    <!-- RIGHT SECTION: Vertical Audit Trail (1/4 Width) -->
+    <div class="lg:col-span-1">
+      <!-- h-full and flex-col allow the card to match its neighbor's height exactly -->
+      <div class="card w-full h-full bg-base-100 shadow-xl border border-base-300 flex flex-col min-h-[610px]">
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 p-1">
+        <!-- Header: Fixed height -->
+        <div class="p-5 flex-none flex items-center justify-between">
+          <h2 class="card-title text-sm font-semibold tracking-wide uppercase opacity-70">
+            Audit Trail
+          </h2>
+          <div class="badge badge-ghost text-[10px] opacity-50 px-2">{{ auditLogs.length }} Logs</div>
+        </div>
 
-    <!-- bar chart -->
-    <app-bar-chart [data]="revenueData" xKey="month" yKey="amount" title="Revenue by Month" height="300px"
-      color="#f471b5">
-    </app-bar-chart>
+        <!-- Scrollable Area: flex-1 takes up all remaining space -->
+        <div class="flex-1 relative">
+          <!-- Absolute inset-0 allows the container to scroll within the flex-1 space -->
+          <div class="absolute inset-0 overflow-y-auto custom-scrollbar px-5">
+            <div class="flex flex-col gap-5 pb-6">
 
-    <!-- Donut chart -->
-    <app-donut-chart [data]="browserData" labelKey="browser" valueKey="users" title="Device Distribution"
-      height="292px">
-    </app-donut-chart>
+              @for (log of auditLogs; track log.time) {
+              <div class="flex gap-3 items-start group">
+                <!-- Avatar -->
+                <div class="flex-none">
+                  <div
+                    [class]="'flex items-center justify-center w-10 h-10 rounded-full border-2 border-' + log.actionClass">
+                    <div class="w-8 h-8 rounded-full overflow-hidden">
+                      <img [src]="log.avatar" [alt]="log.userName" class="w-full h-full object-cover" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Content -->
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold text-base-content/90">{{ log.userName }}</span>
+                    <span
+                      [class]="'text-[9px] font-bold py-0.5 px-1.5 rounded bg-' + log.actionClass + '/10 text-' + log.actionClass">
+                      {{ log.action }}
+                    </span>
+                  </div>
+                  <p class="text-[11px] text-base-content/60 leading-snug">
+                    {{ log.description }}
+                  </p>
+                  <span class="text-[9px] opacity-40 font-medium uppercase mt-1">{{ log.time }}</span>
+                </div>
+              </div>
+              } @empty {
+              <div class="flex flex-col items-center justify-center h-full opacity-20">
+                <span class="loading loading-dots loading-md"></span>
+                <p class="text-xs mt-2 uppercase tracking-widest">No activity found</p>
+              </div>
+              }
+
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="h-6 flex-none bg-linear-to-t from-base-100 to-transparent pointer-events-none -mt-6 z-10 rounded-b-2xl">
+        </div>
+      </div>
+    </div>
 
   </div>
 </app-main>
