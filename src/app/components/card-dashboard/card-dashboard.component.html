@@ -1,0 +1,25 @@
+<div class="flex flex-col gap-2 h-full">
+  @for (stat of stats; track stat.title) {
+  <!-- flex-1 ensures each card takes up an equal half of the 300px total height -->
+  <div class="card w-full bg-base-100 shadow-xl border border-base-300 flex-1">
+    <div class="card-body p-5 flex flex-col justify-between">
+      <h2 class="card-title text-sm font-medium opacity-80">
+        {{ stat.title }}
+      </h2>
+      <div class="flex flex-col justify-center">
+        <p [class]="'text-3xl font-bold ' + stat.colorClass">
+          {{ stat.value }}
+        </p>
+        <p class="text-[10px] uppercase tracking-wider opacity-40 mt-1">
+          {{ stat.trend }}
+        </p>
+      </div>
+    </div>
+  </div>
+  } @empty {
+  <div
+    class="card w-full bg-base-100 shadow-xl border border-base-300 h-full flex items-center justify-center opacity-20">
+    <p class="text-xs uppercase tracking-widest">No data available</p>
+  </div>
+  }
+</div>

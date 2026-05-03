@@ -6,6 +6,8 @@ import { SigninService } from '../../services/signin.service';
 import { LineGraphComponent } from '../../components/line-graph/line-graph.component';
 import { BarChartComponent } from '../../components/bar-chart/bar-chart.component';
 import { DonutChartComponent } from '../../components/donut-chart/donut-chart.component';
+import { CardDashboardComponent } from '../../components/card-dashboard/card-dashboard.component';
+import { AuditTrailComponent } from '../../components/audit-trail/audit-trail.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +18,8 @@ import { DonutChartComponent } from '../../components/donut-chart/donut-chart.co
     LineGraphComponent,
     BarChartComponent,
     DonutChartComponent,
+    CardDashboardComponent,
+    AuditTrailComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',

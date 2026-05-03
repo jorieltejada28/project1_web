@@ -1,0 +1,18 @@
+/* target the class you added to your HTML */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px; /* Slim width for a modern look */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent; /* Keep it invisible for that glassmorphism feel */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  /* Using oklch or rgba to let the theme background peek through */
+  background: color-mix(in oklch, currentColor 20%, transparent);
+  border-radius: 20px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in oklch, currentColor 40%, transparent);
+}
