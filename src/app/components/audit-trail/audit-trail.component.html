@@ -1,53 +1,87 @@
+<!-- Dashboard Card (Same as before) -->
 <div class="card w-full h-full bg-base-100 shadow-xl border border-base-300 flex flex-col min-h-[610px]">
-  <!-- Header -->
   <div class="p-5 flex-none flex items-center justify-between">
-    <h2 class="card-title text-sm font-semibold tracking-wide uppercase opacity-70">
-      Audit Trail
-    </h2>
-    <div class="badge badge-ghost text-[10px] opacity-50 px-2">{{ auditLogs.length }} Logs</div>
+    <h2 class="card-title text-sm font-semibold tracking-wide uppercase opacity-70">Recent Activity</h2>
+    <div class="badge badge-ghost text-[10px] opacity-50 px-2">Latest 7</div>
   </div>
 
-  <!-- Scrollable Area -->
-  <div class="flex-1 relative">
-    <div class="absolute inset-0 overflow-y-auto custom-scrollbar px-5">
-      <div class="flex flex-col gap-5 pb-6">
-        @for (log of auditLogs; track log.time) {
-        <div class="flex gap-3 items-start group">
-          <!-- Avatar -->
-          <div class="flex-none">
-            <div [class]="'flex items-center justify-center w-10 h-10 rounded-full border-2 border-' + log.actionClass">
-              <div class="w-8 h-8 rounded-full overflow-hidden">
-                <img [src]="log.avatar" [alt]="log.userName" class="w-full h-full object-cover" />
-              </div>
-            </div>
-          </div>
-
-          <!-- Content -->
-          <div class="flex flex-col gap-0.5">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-bold text-base-content/90">{{ log.userName }}</span>
-              <span
-                [class]="'text-[9px] font-bold py-0.5 px-1.5 rounded bg-' + log.actionClass + '/10 text-' + log.actionClass">
-                {{ log.action }}
-              </span>
-            </div>
-            <p class="text-[11px] text-base-content/60 leading-snug">
-              {{ log.description }}
-            </p>
-            <span class="text-[9px] opacity-40 font-medium uppercase mt-1">{{ log.time }}</span>
-          </div>
-        </div>
-        } @empty {
-        <div class="flex flex-col items-center justify-center h-full opacity-20">
-          <span class="loading loading-dots loading-md"></span>
-          <p class="text-xs mt-2 uppercase tracking-widest">No activity found</p>
-        </div>
-        }
-      </div>
+  <div class="flex-1 px-5">
+    <div class="flex flex-col gap-5 pb-6">
+      @for (log of displayLogs(); track $index) {
+      <ng-container *ngTemplateOutlet="logItem; context: { $implicit: log }"></ng-container>
+      }
     </div>
   </div>
 
-  <!-- Bottom Fade -->
-  <div class="h-6 flex-none bg-linear-to-t from-base-100 to-transparent pointer-events-none -mt-6 z-10 rounded-b-2xl">
+  <div class="p-4 border-t border-base-content/5 flex items-center justify-center bg-base-200/20 rounded-b-2xl">
+    <button (click)="openModal()"
+      class="btn btn-xs btn-ghost opacity-50 hover:opacity-100 uppercase tracking-tighter text-[10px]">
+      View Full Audit Log
+    </button>
   </div>
 </div>
+
+<!-- PAGINATED MODAL -->
+<div class="modal" [class.modal-open]="isModalOpen()">
+  <div class="modal-box max-w-2xl bg-base-100 border border-base-300 p-0 overflow-hidden flex flex-col max-h-[90vh]">
+    <!-- Modal Header -->
+    <div class="p-6 border-b border-base-content/5 flex items-center justify-between">
+      <div>
+        <h3 class="font-bold text-lg">Full Audit History</h3>
+        <p class="text-[10px] opacity-50 uppercase font-semibold">Page {{ modalPage() }} of {{ totalPages() }}</p>
+      </div>
+      <button (click)="closeModal()" class="btn btn-sm btn-circle btn-ghost">✕</button>
+    </div>
+
+    <!-- Paginated Content Area -->
+    <div class="p-6 overflow-y-auto">
+      <div class="flex flex-col gap-6">
+        @for (log of paginatedModalLogs(); track $index) {
+        <ng-container *ngTemplateOutlet="logItem; context: { $implicit: log }"></ng-container>
+        }
+      </div>
+    </div>
+
+    <!-- Pagination Footer -->
+    <div class="p-4 border-t border-base-content/5 bg-base-200/30 flex items-center justify-between">
+      <button (click)="prevPage()" [disabled]="modalPage() === 1"
+        class="btn btn-sm btn-ghost gap-2 disabled:opacity-30">
+        « Prev
+      </button>
+
+      <span class="text-xs font-mono opacity-60">
+        Showing {{ (modalPage() - 1) * pageSize + 1 }} - {{ Math.min(modalPage() * pageSize, auditLogs.length) }}
+      </span>
+
+      <button (click)="nextPage()" [disabled]="modalPage() === totalPages()"
+        class="btn btn-sm btn-ghost gap-2 disabled:opacity-30">
+        Next »
+      </button>
+    </div>
+  </div>
+  <div class="modal-backdrop" (click)="closeModal()"></div>
+</div>
+
+<!-- SHARED TEMPLATE -->
+<ng-template #logItem let-log>
+  <div class="flex gap-3 items-start">
+    <div class="flex-none">
+      <div [class]="'flex items-center justify-center w-10 h-10 rounded-full border-2 border-' + log.actionClass">
+        <div class="w-8 h-8 rounded-full overflow-hidden">
+          <img [src]="log.avatar" [alt]="log.userName" class="w-full h-full object-cover" />
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col gap-0.5 text-left">
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-bold text-base-content/90">{{ log.userName }}</span>
+        <span
+          [class]="'text-[9px] font-bold py-0.5 px-1.5 rounded bg-' + log.actionClass + '/10 text-' + log.actionClass">
+          {{ log.action }}
+        </span>
+      </div>
+      <p class="text-[11px] text-base-content/60 leading-snug">{{ log.description }}</p>
+      <span class="text-[9px] opacity-40 font-medium uppercase mt-1">{{ log.time }}</span>
+    </div>
+  </div>
+</ng-template>
